@@ -22,7 +22,11 @@ create table pedidos (
     id_usuario int not null,
     fecha_pedido timestamp,
     confirmar_pedido char(2) default 'no',
-     primary key (id_pedido)
+     primary key (id_pedido),
+     constraint fk_pedido_usuarios
+     foreign key (id_usuario) references usuarios(id_usuario)
+     on delete CASCADE
+     on update RESTRICT
 );
 drop table if exists detalles; 
 create table detalles(
@@ -30,6 +34,18 @@ create table detalles(
     id_pedido  int not null,
     id_producto  int not null,
     cantidad  int not null,
-     primary key (id_detalle)
+
+     primary key (id_detalle),
+
+     constraint `fk_detalles_pedido`
+     foreign key (id_pedido) references pedidos(id_pedido)
+    on delete CASCADE
+     on update RESTRICT,
+
+     constraint fk_detalles_producto
+     foreign key (id_producto)references productos(id_producto)
+     on delete cascade
+     on update RESTRICT
+
 );
 
